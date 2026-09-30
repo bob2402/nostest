@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NosTest · Test Accounts</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="brand"><span class="logo" aria-hidden="true">N</span><div><h1>NosTest</h1><p>Nostr test signer</p></div></div>
+      <span class="pill">TEST ONLY</span>
+    </header>
+    <aside class="warning"><strong>Every website is trusted.</strong> Auto-approval allows signing and decryption without asking. Use test accounts only.</aside>
+    <p id="status" role="status" aria-live="polite">Loading accounts…</p>
+    <fieldset id="controls" disabled>
+      <section class="card">
+        <div class="row"><h2>Active account</h2><span id="account-count" class="muted"></span></div>
+        <label for="accounts" class="sr-only">Switch active account</label>
+        <select id="accounts" aria-describedby="switch-help"></select>
+        <p id="switch-help" class="muted">Used in every tab. After switching, some apps need a reload or sign-in again.</p>
+        <div class="row actions">
+          <button id="copy-npub" type="button">Copy npub</button>
+          <button id="copy-hex" type="button">Copy hex</button>
+          <button id="next" type="button">Next account →</button>
+        </div>
+        <div class="row approval-row"><span>Auto-approve requests</span><label class="toggle"><input id="enabled" type="checkbox" aria-label="Auto-approve requests"><span id="mode">Loading</span></label></div>
+        <p class="muted">Turn off to reject new requests from all websites.</p>
+        <details class="account-tools">
+          <summary>Manage this account</summary>
+          <code id="pubkey"></code>
+          <form id="rename-form" class="row form-row">
+            <label for="name" class="sr-only">Account name</label>
+            <input id="name" placeholder="Account name" maxlength="60" required autocomplete="off">
+            <button type="submit">Rename</button>
+            <button id="delete" type="button" class="danger">Delete</button>
+          </form>
+        </details>
+      </section>
+      <details id="generate-panel" class="card disclosure">
+        <summary>Generate accounts</summary>
+        <form id="generate-form" class="row form-row">
+          <label for="count">Count</label>
+          <input id="count" type="number" min="1" max="20" value="1" required>
+          <button type="submit" class="primary">Generate</button>
+        </form>
+        <p class="muted">Up to 20 at once · 100 total · current account stays active</p>
+      </details>
+      <details id="import-panel" class="card disclosure">
+        <summary>Import an nsec account</summary>
+        <p id="import-warning" class="muted">Do not import your main account. When selected, this key can sign and decrypt for any website while auto-approval is on. Keys are stored unencrypted.</p>
+        <form id="import-form" class="import-form" autocomplete="off">
+          <label for="import-name">Account name (optional)</label>
+          <input id="import-name" maxlength="60" placeholder="Imported account" autocomplete="off">
+          <label for="import-nsec">Private key (nsec)</label>
+          <input id="import-nsec" type="password" placeholder="nsec1…" maxlength="128" required autocomplete="new-password" spellcheck="false" autocapitalize="none" aria-describedby="import-warning">
+          <label class="acknowledgement"><input id="import-risk" type="checkbox" required><span>I understand the auto-approval and unencrypted storage risks.</span></label>
+          <button type="submit" class="primary">Import account</button>
+        </form>
+        <p class="muted">Import keeps the current account active. Select the imported account above to use it. Keep your own backup.</p>
+        <p id="import-status" role="status" aria-live="polite"></p>
+      </details>
+      <details id="logs-panel" class="card disclosure">
+        <summary>Recent requests</summary>
+        <div class="row form-row"><span class="muted">Last 50 · metadata only</span><div class="row"><button id="refresh" type="button">Refresh</button><button id="clear" type="button">Clear</button></div></div>
+        <ol id="logs"></ol>
+      </details>
+    </fieldset>
+    <footer>Keys stay in this browser profile, stored unencrypted. No export or recovery. Keep a backup of imported keys.</footer>
+  </main>
+</body>
+</html>

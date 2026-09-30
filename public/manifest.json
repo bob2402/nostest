@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "NosTest · Nostr Test Signer",
+  "version": "0.1.0",
+  "description": "For testing only: auto-approve NIP-07 requests, generate and switch between disposable Nostr accounts.",
+  "minimum_chrome_version": "111",
+  "permissions": ["storage"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "NosTest · Test Accounts", "default_popup": "popup.html" },
+  "options_page": "popup.html",
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    },
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["provider.js"],
+      "world": "MAIN",
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'"
+  }
+}
